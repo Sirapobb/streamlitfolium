@@ -67,7 +67,7 @@ def mapl(data, lat, lon, zoom):
             pdk.Layer(
                 "HexagonLayer",
                 data=data,
-                get_position=["lon_start", "lat_start"],
+                get_position=["lonstart", "latstart"],
                 radius=100,
                 elevation_scale=4,
                 elevation_range=[0, 1000],
@@ -90,7 +90,7 @@ def mapr(data, lat, lon, zoom):
             pdk.Layer(
                 "HexagonLayer",
                 data=data,
-                get_position=["lon_stop", "lat_stop"],
+                get_position=["lonstop", "latstop"],
                 radius=100,
                 elevation_scale=4,
                 elevation_range=[0, 1000],
