@@ -27,7 +27,6 @@ st.set_page_config(layout="wide")
 #Title
 st.title('Origin-Destination (Sirapob Wutthinuntiwong)')
 
-
 # LAYING OUT THE TOP SECTION OF THE APP
 row1_1, row1_2 = st.columns((2,3))
 with row1_1:
@@ -100,6 +99,7 @@ def mapr(data, lat, lon, zoom):
         ]
     ))
 
+#data = df[df[DATE_TIME].dt.hour == hour_selected]
 data['timestart'] = pd.to_datetime(data['timestart'])
 data['timestop'] = pd.to_datetime(data['timestop'])
 
@@ -115,11 +115,11 @@ midpointB = (np.average(B["latstop"]), np.average(B["lonstop"]))
 row2_1, row2_2= st.columns((1,1))
 with row2_1:
     st.write('**Origin Dataframe Start** ',str(selected_date),'/1/2019')#str(selected_date)
-    dataA = A[['latstart', 'lonstart','timestart']]
+    dataA = A[['latstartl', 'lonstartl','timestart']]
     st.dataframe(dataA)
 
 with row2_2:
-    st.write('**Destination Dataframe Stop**',str(selected_date),'/1/2019')#str(selected_date)
+    st.write('**Destination Dataframe Stop** ',str(selected_date),'/1/2019')#str(selected_date)
     dataB = B[['latstop','lonstop','timestop']]
     st.dataframe(dataB)
 
@@ -147,7 +147,7 @@ filtered = data[
     (data[timestop].dt.hour >= hour_selected) & (data[timestop].dt.hour < (hour_selected + 3))
     ]
 
-hist = np.histogram(filtered[timestop].dt.minute, bins=60, range=(0, 60))[0]
+hist = np.histogram(filtered[t_stop].dt.minute, bins=60, range=(0, 60))[0]
 
 chart_data = pd.DataFrame({"minute": range(60), "volume": hist})
 
@@ -165,6 +165,6 @@ st.altair_chart(alt.Chart(chart_data)
         y=alt.Y("volume:Q"),
         tooltip=['minute', 'volume']
     ).configure_mark(
-        opacity=0.2,
-        color='blue'
+        opacity=0.5,
+        color='red'
     ), use_container_width=True)
