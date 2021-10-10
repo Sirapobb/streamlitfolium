@@ -66,7 +66,7 @@ def mapl(data, lat, lon, zoom):
             pdk.Layer(
                 "HexagonLayer",
                 data=data,
-                get_position=["lonstart", "latstart"],
+                get_position=["lonstartl", "latstartl"],
                 radius=100,
                 elevation_scale=4,
                 elevation_range=[0, 1000],
@@ -108,7 +108,7 @@ timestart = "timestart"
 timestop = "timestop"
 A = data[data[timestart].dt.hour <= hour_selected+3]
 B = data[data[timestop].dt.hour <= hour_selected+3]
-midpointA = (np.average(A["latstart"]), np.average(A["lonstart"]))
+midpointA = (np.average(A["latstartl"]), np.average(A["lonstartl"]))
 midpointB = (np.average(B["latstop"]), np.average(B["lonstop"]))
 
 
