@@ -26,7 +26,7 @@ st.set_page_config(layout="wide")
 
 #Title
 st.title('Origin-Destination extracted from iTIC data')
-st.header('Poomrapee Wittanarat   6130821621')
+st.header('Sirapob Wutthinuntiwong  6130829721')
 
 # LAYING OUT THE TOP SECTION OF THE APP
 row1_1, row1_2 = st.columns((2,3))
@@ -99,60 +99,55 @@ def mapr(data, lat, lon, zoom):
             ),
         ]
     ))
-###########3#######
-# FILTERING DATA BY HOUR SELECTED
-#DATE_TIME = "date/time"
-#t_start = "timestart"
-#t_stop = "timestop"
-#data = df[df[DATE_TIME].dt.hour == hour_selected]
+
 data['timestart'] = pd.to_datetime(data['timestart'])
 data['timestop'] = pd.to_datetime(data['timestop'])
 
 # LAYING OUT THE TOP SECTION OF THE APP
-t_start = "timestart"
-t_stop = "timestop"
-data1 = data[data[t_start].dt.hour <= hour_selected+3]
-data2 = data[data[t_stop].dt.hour <= hour_selected+3]
-midpoint1 = (np.average(data1["latstartl"]), np.average(data1["lonstartl"]))
-midpoint2 = (np.average(data2["latstop"]), np.average(data2["lonstop"]))
+timestart = "timestart"
+timestop = "timestop"
+A = data[data[timestart].dt.hour <= hour_selected+3]
+B = data[data[timestop].dt.hour <= hour_selected+3]
+midpointA = (np.average(A["latstartl"]), np.average(A["lonstartl"]))
+midpointB = (np.average(B["latstop"]), np.average(B["lonstop"]))
 
 
 row2_1, row2_2= st.columns((1,1))
 with row2_1:
     st.write('**Origin Dataframe** of Selected Date (',str(selected_date),'/1/2019) : **Start**')#str(selected_date)
-    dd1 = data1[['latstartl', 'lonstartl','timestart']]
-    st.dataframe(dd1)
+    dataA = A[['latstartl', 'lonstartl','timestart']]
+    st.dataframe(dataA)
 
 with row2_2:
     st.write('**Destination Dataframe** of Selected Date (',str(selected_date),'/1/2019) : **Stop**')#str(selected_date)
-    dd2 = data2[['latstop','lonstop','timestop']]
-    st.dataframe(dd2)
+    dataB = B[['latstop','lonstop','timestop']]
+    st.dataframe(dataB)
 
 row3_1, row3_2= st.columns((1,1))
 with row3_1:
     st.write("**Origin location from %i:00 to %i:00**" % (hour_selected, (hour_selected+3) % 24))
-    mapl(dd1, midpoint1[0], midpoint1[1], 11)
+    mapl(dataA, midpointA[0], midpointA[1], 11)
 
 with row3_2:
     st.write("**Destination location from %i:00 to %i:00**" % (hour_selected, (hour_selected+3) % 24))
-    mapr(dd2, midpoint2[0], midpoint2[1], 11)
+    mapr(dataB, midpointB[0], midpointB[1], 11)
 
 
 # FILTERING DATA FOR THE HISTOGRAM #START
 filtered = data[
-    (data[t_start].dt.hour >= hour_selected) & (data[t_start].dt.hour < (hour_selected + 3))
+    (data[timestart].dt.hour >= hour_selected) & (data[timestart].dt.hour < (hour_selected + 3))
     ]
 
-hist = np.histogram(filtered[t_start].dt.minute, bins=60, range=(0, 60))[0]
+hist = np.histogram(filtered[timestart].dt.minute, bins=60, range=(0, 60))[0]
 
 chart_data = pd.DataFrame({"minute": range(60), "volume": hist})
 
 # FILTERING DATA FOR THE HISTOGRAM #STOP
 filtered = data[
-    (data[t_stop].dt.hour >= hour_selected) & (data[t_stop].dt.hour < (hour_selected + 3))
+    (data[timestop].dt.hour >= hour_selected) & (data[timestop].dt.hour < (hour_selected + 3))
     ]
 
-hist = np.histogram(filtered[t_stop].dt.minute, bins=60, range=(0, 60))[0]
+hist = np.histogram(filtered[timestop].dt.minute, bins=60, range=(0, 60))[0]
 
 chart_data = pd.DataFrame({"minute": range(60), "volume": hist})
 
