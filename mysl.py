@@ -25,8 +25,8 @@ import pydeck as pdk
 st.set_page_config(layout="wide")
 
 #Title
-st.title('Origin-Destination extracted from iTIC data')
-st.header('Sirapob Wutthinuntiwong  6130829721')
+st.title('Origin-Destination (Sirapob Wutthinuntiwong)')
+
 
 # LAYING OUT THE TOP SECTION OF THE APP
 row1_1, row1_2 = st.columns((2,3))
@@ -67,7 +67,7 @@ def mapl(data, lat, lon, zoom):
             pdk.Layer(
                 "HexagonLayer",
                 data=data,
-                get_position=["lonstartl", "latstartl"],
+                get_position=["lon_start", "lat_start"],
                 radius=100,
                 elevation_scale=4,
                 elevation_range=[0, 1000],
@@ -90,7 +90,7 @@ def mapr(data, lat, lon, zoom):
             pdk.Layer(
                 "HexagonLayer",
                 data=data,
-                get_position=["lonstop", "latstop"],
+                get_position=["lon_stop", "lat_stop"],
                 radius=100,
                 elevation_scale=4,
                 elevation_range=[0, 1000],
@@ -114,22 +114,22 @@ midpointB = (np.average(B["latstop"]), np.average(B["lonstop"]))
 
 row2_1, row2_2= st.columns((1,1))
 with row2_1:
-    st.write('**Origin Dataframe** of Selected Date (',str(selected_date),'/1/2019) : **Start**')#str(selected_date)
+    st.write('**Origin Dataframe Start** ',str(selected_date),'/1/2019')#str(selected_date)
     dataA = A[['latstartl', 'lonstartl','timestart']]
     st.dataframe(dataA)
 
 with row2_2:
-    st.write('**Destination Dataframe** of Selected Date (',str(selected_date),'/1/2019) : **Stop**')#str(selected_date)
+    st.write('**Destination Dataframe Stop**',str(selected_date),'/1/2019')#str(selected_date)
     dataB = B[['latstop','lonstop','timestop']]
     st.dataframe(dataB)
 
 row3_1, row3_2= st.columns((1,1))
 with row3_1:
-    st.write("**Origin location from %i:00 to %i:00**" % (hour_selected, (hour_selected+3) % 24))
+    st.write("**Origin location from 0.00 to 3.00**" % (hour_selected, (hour_selected+3) % 24))
     mapl(dataA, midpointA[0], midpointA[1], 11)
 
 with row3_2:
-    st.write("**Destination location from %i:00 to %i:00**" % (hour_selected, (hour_selected+3) % 24))
+    st.write("**Destination location from 0.00 to 3.00**" % (hour_selected, (hour_selected+3) % 24))
     mapr(dataB, midpointB[0], midpointB[1], 11)
 
 
