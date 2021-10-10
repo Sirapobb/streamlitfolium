@@ -125,11 +125,11 @@ with row2_2:
 
 row3_1, row3_2= st.columns((1,1))
 with row3_1:
-    st.write("**Origin location from 0.00 to 3.00**" % (hour_selected, (hour_selected+3) % 24))
+    st.write("**Origin location from %i:00 to %i:00**" % (hour_selected, (hour_selected+3) % 24))
     mapl(dataA, midpointA[0], midpointA[1], 11)
 
 with row3_2:
-    st.write("**Destination location from 0.00 to 3.00**" % (hour_selected, (hour_selected+3) % 24))
+    st.write("**Destination location from %i:00 to %i:00**" % (hour_selected, (hour_selected+3) % 24))
     mapr(dataB, midpointB[0], midpointB[1], 11)
 
 
