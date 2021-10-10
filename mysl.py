@@ -108,14 +108,14 @@ timestart = "timestart"
 timestop = "timestop"
 A = data[data[timestart].dt.hour <= hour_selected+3]
 B = data[data[timestop].dt.hour <= hour_selected+3]
-midpointA = (np.average(A["latstartl"]), np.average(A["lonstartl"]))
+midpointA = (np.average(A["latstart"]), np.average(A["lonstart"]))
 midpointB = (np.average(B["latstop"]), np.average(B["lonstop"]))
 
 
 row2_1, row2_2= st.columns((1,1))
 with row2_1:
     st.write('**Origin Dataframe Start** ',str(selected_date),'/1/2019')#str(selected_date)
-    dataA = A[['latstartl', 'lonstartl','timestart']]
+    dataA = A[['latstart', 'lonstart','timestart']]
     st.dataframe(dataA)
 
 with row2_2:
